@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: RESI-Build
+Version: 0.1
+Summary: RESI-Build: a click and run plugin for future weather, extreme weather, and power outage data download.
+Home-page: https://github.com/Bugs-Owner/RESI-One-click-for-future-building-energy-simulation.git
+Author: Zixin Jiang
+Author-email: zjiang19@syr.edu
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# RESI-One click for future building energy simulation
+ An easy plug-in for future weather, extreme weather, power outage data download

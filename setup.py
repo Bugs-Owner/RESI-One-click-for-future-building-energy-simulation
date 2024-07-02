@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='RESI-BEM-BEM',
+    name='RESI-Build',
     version='0.1',
     packages=find_packages(),
     install_requires=[
@@ -17,7 +17,7 @@ setup(
 
     author='Zixin Jiang',
     author_email='zjiang19@syr.edu',
-    description='RESI-BEM: a click and run plugin for future weather, extreme weather, and power outage data download.',
+    description='RESI-Build: a click and run plugin for future weather, extreme weather, and power outage data download.',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/Bugs-Owner/RESI-One-click-for-future-building-energy-simulation.git',
