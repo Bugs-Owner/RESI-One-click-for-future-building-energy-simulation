@@ -4,7 +4,7 @@
 
 Three years ago, when I began my PhD studies, buildings accounted for **30%** of energy consumption in the world. 
 Today, when I draft my paper, I still start with the same sentence.
-People did so many studies and one of the major barriers is scalability—not just in modeling, but also in data acquisition, control optimization, retrofit and implementation.
+People did so many studies and one of the major barriers to reduce this number is scalability—not just in modeling, but also in data acquisition, control optimization, retrofit and implementation.
 
 I was always wondering if there was anything I could do to simplify these processes. This motivated me to develop RESI, a modular-oriented platform where everything is modularized, allowing users to easily create a pipeline like Lego plug-and-play.
 
