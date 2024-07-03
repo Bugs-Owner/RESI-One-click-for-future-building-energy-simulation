@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
-Name: RESI-Build
-Version: 0.1
-Summary: RESI-Build: a click and run plugin for future weather, extreme weather, and power outage data download.
+Name: ResiSim
+Version: 1.0.6
+Summary: ResiSim: A click and run plugin for future weather, extreme weather, and power outage data download.
 Home-page: https://github.com/Bugs-Owner/RESI-One-click-for-future-building-energy-simulation.git
 Author: Zixin Jiang
 Author-email: zjiang19@syr.edu

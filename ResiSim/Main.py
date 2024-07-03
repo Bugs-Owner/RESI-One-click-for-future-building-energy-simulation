@@ -2,14 +2,16 @@ from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
-from Data_Generation import weather
+from .Data_Generation import weather
 import os
+import pkg_resources
 import matplotlib.pyplot as plt
 import matplotlib.dates as dates
 
 #Get_token_ready
 def authorize():
     creds = None
+    credentials_path = pkg_resources.resource_filename(__name__, 'credentials.json')
     if os.path.exists('token.json'):
         creds = Credentials.from_authorized_user_file('token.json', scopes=['https://www.googleapis.com/auth/drive'])
     if not creds or not creds.valid:
@@ -17,7 +19,7 @@ def authorize():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json',
+                credentials_path,
                 scopes=['https://www.googleapis.com/auth/drive'],
                 redirect_uri='http://localhost:8501/'
             )
@@ -44,22 +46,23 @@ class TemperaturePlotter:
         wea.get_file_name()
         wea.get_drive_data()
         wea.get_extreme_wea()
+        wea.get_heatwave()
         self.wea=wea
 
     def plot_temperature_distribution(self):
         feature = "Dry Bulb Temperature"
         fig, ax = plt.subplots(1, 1, figsize=(6.5, 3), dpi=300, constrained_layout=True)
-        timindex = self.wea.all_epw[:8760].index
+        timindex = self.wea.All_df[:8760].index
         for i in range(10):
-            select = self.wea.all_epw[8760 * i:8760 * (i + 1)]
+            select = self.wea.All_df[8760 * i:8760 * (i + 1)]
             ax.plot_date(timindex, select[feature], linestyle='-', linewidth=1, markersize=0.1, color='gray')
-        ax.plot_date(timindex, self.wea.TMY_epw[feature], linestyle='-', linewidth=0.6,
+        ax.plot_date(timindex, self.wea.TMY_df[feature], linestyle='-', linewidth=0.6,
                      markersize=0.08, color='#F2A71B', label="Typical Meteorological Year")
         ax.plot_date(timindex, select[feature], linestyle='-', linewidth=1, markersize=0.1, color='gray',
                      label="10 Years Temperature Distribution")
-        ax.plot_date(timindex, self.wea.EWY_epw[feature], linestyle='-', linewidth=1.2,
+        ax.plot_date(timindex, self.wea.EWY_df[feature], linestyle='-', linewidth=1.2,
                      markersize=0.08, color='red', label="Extreme Warm Year")
-        ax.plot_date(timindex, self.wea.ECY_epw[feature], linestyle='-', linewidth=1.2,
+        ax.plot_date(timindex, self.wea.ECY_df[feature], linestyle='-', linewidth=1.2,
                      markersize=0.08, color='blue', label="Extreme Cold Year")
         leg = ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.26), ncol=2, fontsize=11, frameon=False)
         for i in leg.legend_handles:
@@ -83,11 +86,10 @@ def query(city, time_span, sce):
     plotter = TemperaturePlotter(city=city, time_span=time_span)
     plotter.query(service=authorize())
     plotter.plot_temperature_distribution()
-
     if sce != 'All':
         _epw = plotter.wea.outputepw(sce)
     else:
         _epw = plotter.wea.raw_io
     _df = plotter.wea.data_dict['{}_df'.format(sce)]
 
-    return _epw, _df
+    return _epw.getvalue(), _df, plotter.wea.heat_wave_events

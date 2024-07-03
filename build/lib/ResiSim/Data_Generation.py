@@ -1,6 +1,6 @@
-from Google_Drive import get_epw_file_from_drive
-from Google_Drive import search_file_by_name
+from googleapiclient.http import MediaIoBaseDownload
 from ast import literal_eval
+import pkg_resources
 import requests
 import numpy as np
 import pandas as pd
@@ -12,6 +12,27 @@ def MAE(Overall, candi):
     return sum(abs(candi-Overall))
 def EY(Overall, candi):
     return sum((candi-Overall))
+
+def get_epw_file_from_drive(service, file_id):
+  request = service.files().get_media(fileId=file_id)
+  fh = io.BytesIO()
+  downloader = MediaIoBaseDownload(fh, request)
+  done = False
+  while not done:
+    _, done = downloader.next_chunk()
+  fh.seek(0)
+  return fh
+
+
+def search_file_by_name(service, file_name, folder_id):
+  query = f"name='{file_name}' and trashed=false and '{folder_id}' in parents"
+  results = service.files().list(q=query, fields="nextPageToken, files(id, name)").execute()
+  items = results.get('files', [])
+
+  if not items:
+    return None
+  else:
+    return items[0]['id']
 
 class weather():
     def __init__(self):
@@ -60,8 +81,8 @@ class weather():
                 lat_max = self.latitude + 0.05 + threshold_multiplier
                 long_min = self.longitude - 0.05 - threshold_multiplier
                 long_max = self.longitude + 0.05 + threshold_multiplier
-
-                with open('weather.txt', 'r') as f:
+                weather_path = pkg_resources.resource_filename(__name__, 'weather.txt')
+                with open(weather_path, 'r') as f:
                     filelist = [list(literal_eval(line)) for line in f]
                     for file in filelist[0][1:]:
                         Fileyear = int(file.split('_')[2])
@@ -139,7 +160,7 @@ class weather():
             epw[year] = self.read_epw_to_dataframe()
         self.raw_io=raw_io
         Tempdf = pd.DataFrame.from_dict(temperatures)
-        time_range = pd.date_range(start="{}-01-01".format(self.yearrange[-1]), end="{}-01-01".format(self.yearrange[-1] + 1), freq='H')[:-1]
+        time_range = pd.date_range(start="{}-01-01".format(self.yearrange[-1]), end="{}-01-01".format(self.yearrange[-1] + 1), freq='h')[:-1]
         Tempdf.index = time_range
 
         TMY_file, EWY_file, ECY_file = {}, {}, {}
@@ -183,9 +204,9 @@ class weather():
         for key, value in self.epw.items():
             epw_ = value
             if key % 4 != 0:
-                epw_.index = pd.date_range(start="{}-01-01".format(key), end="{}-01-01".format(key + 1), freq='H')[:-1]
+                epw_.index = pd.date_range(start="{}-01-01".format(key), end="{}-01-01".format(key + 1), freq='h')[:-1]
             if key % 4 == 0:
-                epw_.index = pd.date_range(start="{}-01-01".format(key + 1), end="{}-01-01".format(key + 2), freq='H')[
+                epw_.index = pd.date_range(start="{}-01-01".format(key + 1), end="{}-01-01".format(key + 2), freq='h')[
                              :-1] - pd.DateOffset(years=1)
             all_epw = pd.concat([all_epw, epw_])
 
@@ -201,6 +222,73 @@ class weather():
             "All_df": all_epw
         }
         self.data_dict=data_dict
+
+    def get_heatwave(self):
+        daily_mean_temp  = self.All_df["Dry Bulb Temperature"].resample('1D').mean().dropna()
+        # Calculate percentiles
+        Spic = np.percentile(daily_mean_temp , 99.5)
+        Sdeb = np.percentile(daily_mean_temp , 97.5)
+        Sint = np.percentile(daily_mean_temp , 95)
+        # Initialize variables
+        heat_wave = False
+        heat_wave_start = None
+        heat_waves = []
+
+        # Iterate over the daily mean temperatures to detect heat waves
+        for i in range(len(daily_mean_temp)):
+            temp = daily_mean_temp.iloc[i]
+
+            if temp >= Spic:
+                # Backtrack to find the start day of the heat wave
+                heat_wave_start = None
+                for j in range(i, -1, -1):
+                    if daily_mean_temp.iloc[j] >= Sdeb:
+                        heat_wave_start = j
+                    else:
+                        break
+                if heat_wave_start is not None:
+                    heat_wave = True
+
+            if heat_wave:
+                if temp < Sdeb:
+                    consecutive_cool_days = 0
+                    for j in range(i, min(i + 3, len(daily_mean_temp))):
+                        if daily_mean_temp.iloc[j] < Sdeb:
+                            consecutive_cool_days += 1
+                        else:
+                            break
+                    if consecutive_cool_days >= 3 or temp < Sint:
+                        heat_wave = False
+                        heat_waves.append((heat_wave_start, i))
+                        heat_wave_start = None
+
+        # Add the last heat wave if it ends at the end of the dataset
+        if heat_wave:
+            heat_waves.append((heat_wave_start, len(daily_mean_temp) - 1))
+
+        # Collect data
+        self.All_df['heat_wave'] = False
+        heat_wave_events = []
+        for start, end in heat_waves:
+            start_date = daily_mean_temp.index[start]
+            end_date = daily_mean_temp.index[end]
+            duration = (end_date - start_date).days + 1
+            max_temp = daily_mean_temp[start:end + 1].max()
+            heat_wave_df = self.All_df.loc[start_date:end_date]
+            self.All_df.loc[start_date:end_date, 'heat_wave'] = True
+            heat_wave_events.append({
+                'start_date': start_date,
+                'end_date': end_date,
+                'duration_days': duration,
+                'max_temperature': max_temp,
+                'dataframe': heat_wave_df
+            })
+            print(f"Heat wave from {start_date} to {end_date}")
+            print(f"Duration: {duration} days")
+            print(f"Max Temperature: {max_temp:.2f}°C")
+            print('---')
+
+        self.heat_wave_events = heat_wave_events
 
     def outputepw(self, type):
         header = []
