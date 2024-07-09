@@ -2,11 +2,9 @@
 
 **Welcome to the RESI: RESIlient Community!**
 
-Three years ago, when I began my PhD studies, buildings accounted for **30%** of energy consumption in the world. 
-Today, when I draft my paper, I still start with the same sentence.
-People did so many studies and one of the major barriers to reduce this number is scalability—not just in modeling, but also in data acquisition, control optimization, retrofit and implementation.
+Seven years ago, when I was a master student and read my first journal article in our field. Most paper began with the statement “building accounts for **30%** of energy consumption in the world”, however, this number has not decreased until now. I was always curious about the reasons behind this and realized that scalability is one of the major barriers, not just in modeling, but also in data acquisition, control optimization, retrofit, and implementation.
 
-I was always wondering if there was anything I could do to simplify these processes. This motivated me to develop RESI, a modular-oriented platform where everything is modularized, allowing users to easily create a pipeline like Lego plug-and-play.
+I was always wondering if there was anything I could do to simplify these processes. This motivated me to develop RESI, a modular-oriented platform where everything is modularized, allowing users to create a pipeline like Lego plug-and-play easily.
 
 --------------------------------------------------------------------------------------------------------------------------
 ## **MODULE1: Future Weather Data Module**
@@ -38,7 +36,12 @@ Step 2: Import
 Step 3: Query
 
     epw, df, heat_wave = ResiSim.Main.query(city='Syracuse', time_span='Mid-term', sce='TMY') 
+    
+Step 4: You can save this file locally like this:
 
+    with open('test.epw', 'wb') as file:
+        file.write(epw) 
+    
 For *city*:
 
 I integrated Google Geocoding, so ideally you can type any location in the U.S., you will get weather data for the nearest city.
