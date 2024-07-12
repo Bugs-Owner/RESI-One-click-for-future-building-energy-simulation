@@ -58,7 +58,8 @@ For *sce*, we have:
 "ECY" (Extreme Cold Year)
 "All" (All raw data)
 
-Citation
+Citation:
+
 Jiang, Z., & Dong, B. (2024). RESI: A Power Outage Event and Typical Weather File Generator For Future RESIlient Building Design and Operation.
 ## **MODULE2: Modularized Neural Network Incorporating Physical Priors**
 Import and run, you will get a data-driven building energy model, which can be used for dynamic modeling, control optimization, energy calculation, and retrofit.
