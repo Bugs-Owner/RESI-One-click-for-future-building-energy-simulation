@@ -44,7 +44,7 @@ Step 4: You can save this file locally like this:
     
 For *city*:
 
-I integrated Google Geocoding, so ideally you can type any location in the U.S., you will get weather data for the nearest city.
+I integrated Google Geocoding, so ideally, you can type any location in the U.S., and you will get weather data for the nearest city.
 
 For *time_span*, use:
 
@@ -57,3 +57,6 @@ For *sce*, we have:
 "EWY" (Extreme Warm Year)
 "ECY" (Extreme Cold Year)
 "All" (All raw data)
+
+## **MODULE2: Modularized Neural Network Incorporating Physical Priors**
+Import and run, you will get a data-driven building energy model, which can be used for dynamic modeling, control optimization, energy calculation, and retrofit.
