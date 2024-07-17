@@ -24,9 +24,9 @@ The data is available in both EPW format and as a pandas DataFrame.
 
 Here's how to use it:
 
-Step 1: Installation <The latest version has been updated to 2.0.6>
+Step 1: Installation <The latest version has been updated to 2.0.7>
 
-    pip install ResiSim==2.0.6
+    pip install ResiSim==2.0.7
 
 Step 2: Import
 
@@ -34,7 +34,7 @@ Step 2: Import
 
 Step 3: Query
 
-    epw, df, heat_wave = ResiSim.Main.weather_query(city='Syracuse', time_span='Mid-term', sce='TMY') 
+    epw, df, heat_wave, Spic, Sdeb, Sint = ResiSim.Main.weather_query(city='Syracuse', time_span='Mid-term', sce='TMY') 
     
 Step 4: You can save this file locally like this:
 
