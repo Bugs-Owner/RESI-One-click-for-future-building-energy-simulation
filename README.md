@@ -70,7 +70,9 @@ Jiang, Z., & Dong, B. (2024). RESI: A Power Outage Event and Typical Weather Fil
 ![image](https://github.com/user-attachments/assets/39390072-3fa7-48df-a6eb-a3aa29d7bd70)
 ![image](https://github.com/user-attachments/assets/79def810-30df-4032-ace9-287e8dc24d72)
 ![image](https://github.com/user-attachments/assets/0af72099-70cf-4b60-90fa-492c99f6c927)
+
 This module provides Power Outage data for U.S. from 2002 to 2023.
+
 Step 1: Query
 
     Outage_df = ResiSim.Main.outage_query()
