@@ -10,7 +10,6 @@ I was always wondering if there was anything I could do to simplify these proces
 ## **MODULE1: Future Weather Data Module**
 ![image](https://github.com/Bugs-Owner/RESI-One-click-for-future-building-energy-simulation/assets/155193713/df75571b-f3e5-4e84-82f8-aeb42d1d90df)
 
-
 This module provides future weather data for the years 2045-2054 and 2085-2094. It includes:
 
     Typical Meteorological Year (TMY)
@@ -35,15 +34,17 @@ Step 2: Import
 
 Step 3: Query
 
-    epw, df, heat_wave = ResiSim.Main.query(city='Syracuse', time_span='Mid-term', sce='TMY') 
-    Outage_df = ResiSim.Main.outage_query()
-    Outage_mcmc = ResiSim.Main.outage_mcmc(Outage_df, sample_size=1500, time_window=5)
-    
+    epw, df, heat_wave = ResiSim.Main.weather_query(city='Syracuse', time_span='Mid-term', sce='TMY') 
     
 Step 4: You can save this file locally like this:
 
     with open('test.epw', 'wb') as file:
         file.write(epw) 
+        
+Step 5: Detection, you can use this function to find heat wave events for your own dataset
+
+    heat_wave = ResiSim.Main.find_heat_wave_events(df) 
+
     
 For *city*:
 
@@ -64,6 +65,25 @@ For *sce*, we have:
 Citation:
 
 Jiang, Z., & Dong, B. (2024). RESI: A Power Outage Event and Typical Weather File Generator For Future RESIlient Building Design and Operation.
-## **MODULE2: Modularized Neural Network Incorporating Physical Priors**
+
+## **MODULE2: Power Outage Module**
+![image](https://github.com/user-attachments/assets/39390072-3fa7-48df-a6eb-a3aa29d7bd70)
+![image](https://github.com/user-attachments/assets/79def810-30df-4032-ace9-287e8dc24d72)
+![image](https://github.com/user-attachments/assets/0af72099-70cf-4b60-90fa-492c99f6c927)
+This module provides Power Outage data for U.S. from 2002 to 2023.
+Step 1: Query
+
+    Outage_df = ResiSim.Main.outage_query()
+    Outage_mcmc = ResiSim.Main.outage_mcmc(Outage_df, sample_size=1500, time_window=5)
+
+For *sample_size*:
+
+MCMC sample size
+
+For *time_window*:
+
+the time range you want to sample
+
+## **MODULE3: Modularized Neural Network Incorporating Physical Priors**
 Import and run, you will get a data-driven building energy model, which can be used for dynamic modeling, control optimization, energy calculation, and retrofit. Local test ongoing...
 ![image](https://github.com/user-attachments/assets/537740b0-7bba-4223-b05e-a59fc61e92f7)
