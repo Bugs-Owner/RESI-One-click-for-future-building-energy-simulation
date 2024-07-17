@@ -25,9 +25,9 @@ The data is available in both EPW format and as a pandas DataFrame.
 
 Here's how to use it:
 
-Step 1: Installation
+Step 1: Installation <The latest version has been updated to 2.0.6>
 
-    pip install ResiSim==1.0.6
+    pip install ResiSim==2.0.6
 
 Step 2: Import
 
@@ -36,6 +36,9 @@ Step 2: Import
 Step 3: Query
 
     epw, df, heat_wave = ResiSim.Main.query(city='Syracuse', time_span='Mid-term', sce='TMY') 
+    Outage_df = ResiSim.Main.outage_query()
+    Outage_mcmc = ResiSim.Main.outage_mcmc(Outage_df, sample_size=1500, time_window=5)
+    
     
 Step 4: You can save this file locally like this:
 
