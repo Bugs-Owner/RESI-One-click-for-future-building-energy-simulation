@@ -24,9 +24,9 @@ The data is available in both EPW format and as a pandas DataFrame.
 
 Here's how to use it:
 
-Step 1: Installation <The latest version has been updated to 2.0.8>
+Step 1: Installation <The latest version has been updated to 2.0.9>
 
-    pip install ResiSim==2.0.8
+    pip install ResiSim==2.0.9
 
 Step 2: Import
 
