@@ -89,3 +89,4 @@ the time range you want to sample
 ## **MODULE3: Modularized Neural Network Incorporating Physical Priors**
 Import and run, you will get a data-driven building energy model, which can be used for dynamic modeling, control optimization, energy calculation, and retrofit. Local test ongoing...
 ![image](https://github.com/user-attachments/assets/537740b0-7bba-4223-b05e-a59fc61e92f7)
+![image](https://github.com/user-attachments/assets/895b206f-e9e5-4f23-af8f-e7be7fc06be7)
