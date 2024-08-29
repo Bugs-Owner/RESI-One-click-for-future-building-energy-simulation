@@ -97,12 +97,15 @@ A Bayesian-CNN-LSTM model is developed. CNN can extract features from high-dimen
 
 
 Temperature prediction (24 timestep ahead, hourly resolution):
+
 ![image](https://github.com/user-attachments/assets/d1beffac-50db-4c8b-8a29-c79c44f6c629)
 
 
 Solar radiation prediction (24 timestep ahead, hourly resolution):
+
 ![image](https://github.com/user-attachments/assets/266b587e-20bb-429e-a774-9daabef85047)
 
 
 Occupancy prediction (96 timestep ahead, 15min resolution):
+
 ![image](https://github.com/user-attachments/assets/14d95e32-fb95-42ef-856d-3376d43a6344)
