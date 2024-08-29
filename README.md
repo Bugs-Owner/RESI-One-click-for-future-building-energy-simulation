@@ -91,3 +91,13 @@ Import and run, you will get a data-driven building energy model, which can be u
 ![image](https://github.com/user-attachments/assets/537740b0-7bba-4223-b05e-a59fc61e92f7)
 ![SeqPINN_Dynamic](https://github.com/user-attachments/assets/18cc552a-1f52-4e5d-bcef-7fa6b6e9bf7c)
 
+## **MODULE4: Disturbance Forecasting Module for temperature, solar, and occupancy prediction**
+A Bayesian-CNN-LSTM model is developed. CNN can extract features from high-dimension space, while LSTM has a strong capability for temporal feature extraction and Bayesian approximation can estimate the distribution of the model output, allowing our model to predict confidence levels by accounting for uncertainties rather than providing a single-point prediction.
+![image](https://github.com/user-attachments/assets/c583e33f-6463-4006-9ee9-73f05ad2d1ee)
+
+Temperature prediction (24 timestep ahead, hourly resolution):
+![image](https://github.com/user-attachments/assets/d1beffac-50db-4c8b-8a29-c79c44f6c629)
+Solar radiation prediction (24 timestep ahead, hourly resolution):
+![image](https://github.com/user-attachments/assets/266b587e-20bb-429e-a774-9daabef85047)
+Occupancy prediction (96 timestep ahead, 15min resolution):
+![image](https://github.com/user-attachments/assets/14d95e32-fb95-42ef-856d-3376d43a6344)
